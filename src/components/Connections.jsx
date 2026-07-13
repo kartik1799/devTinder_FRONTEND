@@ -3,9 +3,11 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/slices/connectionSlice";
+import { useNavigate } from "react-router-dom";
 
 const Connections = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const connections = useSelector((store) => store.connections);
 
@@ -24,8 +26,10 @@ const Connections = () => {
     fetchConnections();
   }, []);
 
-  const showProfile = () => {
-    
+  const showProfile = () => {};
+
+  const showChat = (id) => {
+    navigate(`/chat/${id}`);
   };
 
   if (!connections || connections.length === 0) {
@@ -61,14 +65,22 @@ const Connections = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col w-1/5 items-start justify-center">
+              <div className="flex flex-col w-1/3 items-start justify-center">
                 <p className="text-gray-300">{connection.about}</p>
-                <button
-                  className="btn btn-outline btn-sm mt-3"
-                  onClick={showProfile}
-                >
-                  View Profile
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    className="btn btn-outline btn-sm mt-3"
+                    onClick={showProfile}
+                  >
+                    View Profile
+                  </button>
+                  <button
+                    className="btn btn-outline btn-sm mt-3"
+                    onClick={() => showChat(connection._id)}
+                  >
+                    View Chat
+                  </button>
+                </div>
               </div>
             </div>
           );
